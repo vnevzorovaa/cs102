@@ -6,16 +6,17 @@ import typing as tp
 def is_prime(n_n: int) -> bool:
     """
     Tests to see if a number is prime.
-
-    >>> is_prime(2)
+    >>> rsa.is_prime(2)
     True
-    >>> is_prime(11)
+    >>> rsa.is_prime(-11)
     True
-    >>> is_prime(8)
+    >>> rsa.is_prime(8)
     False
     """
     if n_n == 2:
         return True
+    if n_n <= 0:
+        return False
     elif n_n == 1:
         return False
     if n_n % 2 == 0:
@@ -27,7 +28,7 @@ def is_prime(n_n: int) -> bool:
     # pass
 
 
-# print (is_prime(1))
+print(is_prime(-11))
 
 
 def gcd(a_a: int, b_b: int) -> int:
