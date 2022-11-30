@@ -1,7 +1,8 @@
 """importing sth"""
 import typing as tp
 
-#another comment
+
+# another comment
 # comment to change sth
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
