@@ -21,9 +21,9 @@ def is_prime(n_n: int) -> bool:
     if n_n % 2 == 0:
         return False
     d_d = 3
-    while d_d  2 <= n_n and n_n % d_d != 0:
+    while d_d**2 <= n_n and n_n % d_d != 0:
         d_d += 2
-    return d_d  2 > n_n
+    return d_d**2 > n_n
     # pass
 
 
@@ -68,7 +68,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     # pass
 
 
-#print(multiplicative_inverse(4553, 8268))
+# print(multiplicative_inverse(4553, 8268))
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -107,7 +107,7 @@ def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
     # the character using a^b mod m
-    cipher = [(ord(char)  key) % n for char in plaintext]
+    cipher = [(ord(char) ** key) % n for char in plaintext]
     # Return the array of bytes
     return cipher
 
@@ -117,7 +117,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char  key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
