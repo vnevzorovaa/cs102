@@ -43,12 +43,8 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     ans = []
     for i in range(0, len(values), n):
         arr = []
-        # j = 0
         for j in range(n):
-            # while j != n:
-            q = i
-            arr.append(values[q + j])
-            # j += 1
+            arr.append(values[i + j])
         ans.append(arr)
     return ans
 
@@ -78,8 +74,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     ['3', '6', '9']
     """
     row, col = pos
-    ans = [x[col] for x in grid]
-    return ans
+    return [x[col] for x in grid]
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -156,7 +151,7 @@ def find_empty_positions(
         elif j == len(grid[0]) - 1:
             j = 0
             i += 1
-        if i == (len(grid)):
+        if i == len(grid):
             return k, l
     return i, j
 
@@ -202,8 +197,8 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
         n, m = find_empty_positions(grid)
         ans = find_possible_values(grid, pos)
         for i in ans:
-            grid[n][m] = str(i)
-            if solve(grid) is not None:
+            grid[n][m] = i
+            if solve(grid):
                 return grid
             grid[n][m] = "."
         return None
@@ -272,7 +267,7 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
         grid.append([])
         for w in range(9):
             grid[q].append(".")
-    solve(grid)
+    grid = solve(grid)  # type: ignore
     n = 81
     if N > 81:
         return grid
