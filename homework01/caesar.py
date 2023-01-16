@@ -1,9 +1,6 @@
-"""importing sth"""
 import typing as tp
 
 
-# another comment
-# comment to change sth
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -17,17 +14,17 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     chiphertext = ""
-    for i, _ in enumerate(plaintext):
-        if plaintext[i].isalpha():
-            a = ord(plaintext[i])
-            if plaintext[i].isupper() and a >= 91 - shift:
+    for i, bukv in enumerate(plaintext):
+        if bukv.isalpha():
+            a = ord(bukv)
+            if bukv.isupper() and a >= 91 - shift:
                 chiphertext += chr(a - 26 + shift)
-            elif plaintext[i].islower() and a >= 123 - shift:
+            elif bukv.islower() and a >= 123 - shift:
                 chiphertext += chr(a - 26 + shift)
             else:
                 chiphertext += chr(a + shift)
         else:
-            chiphertext += plaintext[i]
+            chiphertext += bukv
     return chiphertext
 
 
@@ -44,19 +41,19 @@ def decrypt_caesar(chiphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    for i, _ in enumerate(chiphertext):
-        if chiphertext[i].isalpha():
-            a = ord(chiphertext[i])
-            if chiphertext[i].isupper() and a <= 64 + shift:
+    for i, bukv in enumerate(chiphertext):
+        if bukv.isalpha():
+            a = ord(bukv)
+            if bukv.isupper() and a <= 64 + shift:
                 plaintext += chr(a + 26 - shift)
-            elif chiphertext[i].islower() and a <= 96 + shift:
+            elif bukv.islower() and a <= 96 + shift:
                 plaintext += chr(a + 26 - shift)
             else:
                 plaintext += chr(a - shift)
         elif chiphertext.isspace():
             continue
         else:
-            plaintext += chiphertext[i]
+            plaintext += bukv
     return plaintext
 
 
