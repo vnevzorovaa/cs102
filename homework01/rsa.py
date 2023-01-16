@@ -65,8 +65,6 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     return k
 
 
-
-
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     """test"""
     if not (is_prime(p) and is_prime(q)):
