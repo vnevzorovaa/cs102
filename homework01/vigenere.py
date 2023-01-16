@@ -1,7 +1,3 @@
-"""importing sth"""
-# import typing as tp
-
-
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -18,11 +14,11 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     while len(plaintext) > len(keyword):
         keyword += keyword[a_a]
         a_a += 1
-    for i, _ in enumerate(keyword):
-        if keyword[i].isupper():
-            key = ord(keyword[i]) - 65
-        elif keyword[i].islower():
-            key = ord(keyword[i]) - 97
+    for i, bukv in enumerate(keyword):
+        if bukv.isupper():
+            key = ord(bukv) - 65
+        elif bukv.islower():
+            key = ord(bukv) - 97
         if plaintext[i].isalpha():
             c_c = ord(plaintext[i])
             if plaintext[i].isupper() and c_c >= 91 - key:
@@ -52,11 +48,11 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     while len(ciphertext) > len(keyword):
         keyword += keyword[a_b]
         a_b += 1
-    for i, _ in enumerate(keyword):
-        if keyword[i].isupper():
-            key = ord(keyword[i]) - 65
-        elif keyword[i].islower():
-            key = ord(keyword[i]) - 97
+    for i, bukv in enumerate(keyword):
+        if bukv.isupper():
+            key = ord(bukv) - 65
+        elif bukv.islower():
+            key = ord(bukv) - 97
         if ciphertext[i].isalpha():
             c_b = ord(ciphertext[i])
             if ciphertext[i].isupper() and c_b <= 64 + key:
