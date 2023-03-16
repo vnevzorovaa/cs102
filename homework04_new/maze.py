@@ -8,12 +8,12 @@ import pandas as pd
 
 
 def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
-    return [["■"] * cols for _ in range(rows)]
+    return [["■"] * cols for _ in range(rows)] #aa
 
 
 def remove_wall(
     grid: List[List[Union[str, int]]], coord: Tuple[int, int]
-) -> List[List[Union[str, int]]]:
+) -> List[List[Union[str, int]]]: 
     """
 
     :param grid:
@@ -133,7 +133,7 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
             grid[x + 1][y] = k + 1
         elif x != len(grid) - 1 and grid[x + 1][y] == 0:
             grid[x + 1][y] = k + 1
-    return grid
+    return grid #aaa
 
 
 def shortest_path(grid: List[List[Union[str, int]]], exit_coord: Tuple[int, int]):
