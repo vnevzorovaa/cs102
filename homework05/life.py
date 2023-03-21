@@ -170,4 +170,4 @@ class GameOfLife:
                 for j in range(len(self.curr_generation)):
                     row += str(self.curr_generation[i][j])
                 file.write(row)
-                #done
+               
