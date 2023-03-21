@@ -74,10 +74,7 @@ class GUI(UI):
                 # click actions
                 elif event.type == pygame.MOUSEBUTTONUP:
                     x, y = event.pos
-                    (
-                        x,
-                        y,
-                    ) = (
+                    (x, y,) = (
                         x // self.cell_size,
                         y // self.cell_size,
                     )
