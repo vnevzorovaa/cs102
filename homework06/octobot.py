@@ -232,6 +232,7 @@ def choose_removal_option(message):
         bot.send_message(message.chat.id, "Определись!!")
 
 
+
 def update_subject(message): # type: ignore
     """Обновляем информацию о предмете в Google-таблице"""
     global magic_box
@@ -242,6 +243,7 @@ def update_subject(message): # type: ignore
         "Введите новую информацию в формате 'название ссылка'. Если что-то из этого не должно измениться напишите его без изменений",
     )
     bot.register_next_step_handler(inf, update_subject2)
+
 
 
 def update_subject2(message): # type: ignore
@@ -397,6 +399,8 @@ def clear_subject_list(message):
     worksheet = sh.sheet1
     sh.del_worksheet(worksheet)
     start(message)
+
+
 #try
 
 def check_table():
