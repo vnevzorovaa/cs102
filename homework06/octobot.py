@@ -397,7 +397,7 @@ def clear_subject_list(message):
     worksheet = sh.sheet1
     sh.del_worksheet(worksheet)
     start(message)
-
+#try
 
 def check_table():
     global check
