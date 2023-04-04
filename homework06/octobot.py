@@ -232,7 +232,7 @@ def choose_removal_option(message):
         bot.send_message(message.chat.id, "Определись!!")
 
 
-def update_subject(message): # type: ignore
+def update_subject(message):  # type: ignore
     """Обновляем информацию о предмете в Google-таблице"""
     global magic_box
     magic_box = []
@@ -244,7 +244,7 @@ def update_subject(message): # type: ignore
     bot.register_next_step_handler(inf, update_subject2)
 
 
-def update_subject2(message): # type: ignore
+def update_subject2(message):  # type: ignore
     global magic_box
     try:
         name = message.text.split()[0]
@@ -346,7 +346,7 @@ def add_new_subject_url(message):
         print("Subject not found")
 
 
-def update_subject(message): # type: ignore
+def update_subject(message):  # type: ignore
     """Обновляем информацию о предмете в Google-таблице"""
     global magic_box
     magic_box = []
@@ -358,7 +358,7 @@ def update_subject(message): # type: ignore
     bot.register_next_step_handler(inf, update_subject2)
 
 
-def update_subject2(message): # type: ignore
+def update_subject2(message):  # type: ignore
     global magic_box
     try:
         name = message.text.split()[0]
