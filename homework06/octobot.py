@@ -7,8 +7,10 @@ from datetime import datetime, timedelta  # type: ignore
 import gspread  # type: ignore
 import pandas as pd  # type: ignore
 import telebot  # type: ignore
-from dateutil.parser import parse  # type: ignore 
-from google.oauth2.gdch_credentials import ServiceAccountCredentials # type: ignore
+
+from dateutil.parser import parse  # type: ignore
+from google.oauth2.gdch_credentials import \
+    ServiceAccountCredentials  # type: ignore
 
 bot = telebot.TeleBot("6007313686:AAGmqO01oyg2E1CyFfTKMONrx__6udFs4Lk")
 
