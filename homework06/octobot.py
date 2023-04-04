@@ -1,16 +1,16 @@
+# type: ignore
 import datetime
 import json
 import urllib.error
 import urllib.request
-from datetime import datetime, timedelta  # type: ignore
+from datetime import datetime, timedelta  
 
-import gspread  # type: ignore
-import pandas as pd  # type: ignore
-import telebot  # type: ignore
+import gspread  
+import pandas as pd 
+import telebot  
 
-from dateutil.parser import parse  # type: ignore
-from google.oauth2.gdch_credentials import \
-    ServiceAccountCredentials  # type: ignore
+from dateutil.parser import parse  
+from google.oauth2.gdch_credentials import ServiceAccountCredentials  
 
 bot = telebot.TeleBot("6007313686:AAGmqO01oyg2E1CyFfTKMONrx__6udFs4Lk")
 
@@ -24,7 +24,7 @@ def is_valid_date(date: str = "01/01/00", delimiter: str = "/") -> bool:
     - пользователь не должен быть обязан вводить конкретный формат даты
     (например, только через точку или только через слеш)"""
     """Конвертируем дату из строки в datetime"""
-    # Получаем текущую дату # type: ignore
+    # Получаем текущую дату 
     current_date = datetime.now().date() 
 
     # Проверяем что дан правильный (хотя бы на 50% делимитер)
@@ -234,7 +234,7 @@ def choose_removal_option(message):
         bot.send_message(message.chat.id, "Определись!!")
 
 
-def update_subject(message): # type: ignore
+def update_subject(message): 
     """Обновляем информацию о предмете в Google-таблице"""
     global magic_box
     magic_box = []
@@ -246,7 +246,7 @@ def update_subject(message): # type: ignore
     bot.register_next_step_handler(inf, update_subject2)
 
 
-def update_subject2(message): # type: ignore
+def update_subject2(message): 
     global magic_box
     try:
         name = message.text.split()[0]
@@ -325,7 +325,7 @@ def add_new_subject_url(message):
     """Вносим новую ссылку на таблицу предмета в Google-таблицу"""
     # Set up the Google Sheets API client
     scope = ["https://www.googleapis.com/auth/spreadsheets"]
-    credentials = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)  # тут убрала Google-
+    credentials = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)  
     client = gspread.authorize(credentials)
 
     # Open the subject table spreadsheet
@@ -348,7 +348,7 @@ def add_new_subject_url(message):
         print("Subject not found")
 
 
-def update_subject(message): # type: ignore
+def update_subject(message): 
     """Обновляем информацию о предмете в Google-таблице"""
     global magic_box
     magic_box = []
@@ -360,7 +360,7 @@ def update_subject(message): # type: ignore
     bot.register_next_step_handler(inf, update_subject2)
 
 
-def update_subject2(message): # type: ignore
+def update_subject2(message): 
     global magic_box
     try:
         name = message.text.split()[0]
