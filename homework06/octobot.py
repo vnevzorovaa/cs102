@@ -23,8 +23,8 @@ def is_valid_date(date: str = "01/01/00", delimiter: str = "/") -> bool:
     - пользователь не должен быть обязан вводить конкретный формат даты
     (например, только через точку или только через слеш)"""
     """Конвертируем дату из строки в datetime"""
-    # Получаем текущую дату 
-    current_date = datetime.now().date() 
+    # Получаем текущую дату
+    current_date = datetime.now().date()
 
     # Проверяем что дан правильный (хотя бы на 50% делимитер)
     if not delimiter in date:
@@ -46,7 +46,7 @@ def is_valid_date(date: str = "01/01/00", delimiter: str = "/") -> bool:
         return False
 
     # Возвращаем True, если дата прошла все проверки
-    return True #fghj
+    return True  # fghj
 
 
 def is_valid_url(url: str = "") -> bool:
@@ -233,7 +233,7 @@ def choose_removal_option(message):
         bot.send_message(message.chat.id, "Определись!!")
 
 
-def update_subject(message): 
+def update_subject(message):
     """Обновляем информацию о предмете в Google-таблице"""
     global magic_box
     magic_box = []
@@ -245,7 +245,7 @@ def update_subject(message):
     bot.register_next_step_handler(inf, update_subject2)
 
 
-def update_subject2(message): 
+def update_subject2(message):
     global magic_box
     try:
         name = message.text.split()[0]
@@ -324,7 +324,7 @@ def add_new_subject_url(message):
     """Вносим новую ссылку на таблицу предмета в Google-таблицу"""
     # Set up the Google Sheets API client
     scope = ["https://www.googleapis.com/auth/spreadsheets"]
-    credentials = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)  
+    credentials = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
     client = gspread.authorize(credentials)
 
     # Open the subject table spreadsheet
@@ -347,7 +347,7 @@ def add_new_subject_url(message):
         print("Subject not found")
 
 
-def update_subject(message): 
+def update_subject(message):
     """Обновляем информацию о предмете в Google-таблице"""
     global magic_box
     magic_box = []
@@ -359,7 +359,7 @@ def update_subject(message):
     bot.register_next_step_handler(inf, update_subject2)
 
 
-def update_subject2(message): 
+def update_subject2(message):
     global magic_box
     try:
         name = message.text.split()[0]
