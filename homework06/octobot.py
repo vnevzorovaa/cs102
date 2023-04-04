@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 import gspread  
 import pandas as pd 
 import telebot  
-
 from dateutil.parser import parse  
 from google.oauth2.gdch_credentials import ServiceAccountCredentials  
 
