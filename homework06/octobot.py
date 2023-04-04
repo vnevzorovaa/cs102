@@ -47,7 +47,7 @@ def is_valid_date(date: str = "01/01/00", delimiter: str = "/") -> bool:
         return False
 
     # Возвращаем True, если дата прошла все проверки
-    return True
+    return True #fghj
 
 
 def is_valid_url(url: str = "") -> bool:
