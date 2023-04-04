@@ -7,6 +7,7 @@ from datetime import datetime, timedelta  # type: ignore
 import gspread  # type: ignore
 import pandas as pd  # type: ignore
 import telebot  # type: ignore
+
 from dateutil.parser import parse  # type: ignore 
 from google.oauth2.gdch_credentials import ServiceAccountCredentials # type: ignore
 
@@ -22,8 +23,8 @@ def is_valid_date(date: str = "01/01/00", delimiter: str = "/") -> bool:
     - пользователь не должен быть обязан вводить конкретный формат даты
     (например, только через точку или только через слеш)"""
     """Конвертируем дату из строки в datetime"""
-    # Получаем текущую дату
-    current_date = datetime.now().date()
+    # Получаем текущую дату # type: ignore
+    current_date = datetime.now().date() # type: ignore
 
     # Проверяем что дан правильный (хотя бы на 50% делимитер)
     if not delimiter in date:
