@@ -3,13 +3,13 @@ import datetime
 import json
 import urllib.error
 import urllib.request
-from datetime import datetime, timedelta  
+from datetime import datetime, timedelta
 
-import gspread  
-import pandas as pd 
-import telebot  
-from dateutil.parser import parse  
-from google.oauth2.gdch_credentials import ServiceAccountCredentials  
+import gspread
+import pandas as pd
+import telebot
+from dateutil.parser import parse
+from google.oauth2.gdch_credentials import ServiceAccountCredentials
 
 bot = telebot.TeleBot("6007313686:AAGmqO01oyg2E1CyFfTKMONrx__6udFs4Lk")
 
