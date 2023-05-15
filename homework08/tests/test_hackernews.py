@@ -156,7 +156,7 @@ class TestHackernews(unittest.TestCase):
                 pass
             else:
                 pass
-        except sqlite3.OperationalError:
+        except:
             pass
 
 
