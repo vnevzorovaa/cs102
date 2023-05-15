@@ -33,7 +33,7 @@ session = sessionmaker(bind=engine)
 
 
 class News(Base):  # mypy: ignore all
-    __tablename__ = "news"
+    __tablename__ = "News"
     id = Column(Integer, primary_key=True)
     title = Column(String)
     author = Column(String)
