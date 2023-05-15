@@ -29,6 +29,7 @@ def add_label():
     s.add(row)
     s.commit()
     redirect("/all")
+    return row
 
 
 @route("/update")
