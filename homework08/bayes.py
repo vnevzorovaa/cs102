@@ -9,8 +9,8 @@ from db import News, session
 
 
 class NaiveBayesClassifier:
-    def __init__(self, alpha):
-        self.alpha = alpha
+    def __init__(self,):
+        self.alpha = 1
         self.counters = defaultdict(lambda: defaultdict(int))
         self.words_set = set()
         self.class_counter = defaultdict(int)
@@ -66,35 +66,21 @@ def clean(s):
 def label_news():
     s = session()
     x_train = s.query(News.title).filter(News.label != None).all()
-    # SELECT news.title FROM news WHERE NOT news.label IS NULL
     y_train = s.query(News.label).filter(News.label != None).all()
-    # тут мы выбрали из таблицы тайтлы и лейблы у уже проставленных новостей
     x_train = [clean(str(x)).lower() for x in x_train]
     y_train = [clean(str(y)).lower() for y in y_train]
-    print(x_train[0], y_train[0], sep="\n")
-    # сделали их стрингами из нижних букв и без лишних символов
-    model = NaiveBayesClassifier(1)
+    model = NaiveBayesClassifier()
     model.fit(x_train, y_train)
-    # инициализировали классификатор и обучили на уже отмеченных новостях
     x_label = s.query(News.title).filter(News.label == None).all()
     x_label = [clean(str(xx)).lower() for xx in x_label]
-    # достали ТАЙТЛЫ новостей без лейбла и сделали их стрингами
     y_pred = model.predict(x_label)
-    # создали лист с проставленными классификатором лейблами
-    print(y_pred[0])
     rows = s.query(News).filter(News.label == None).all()
-    # SELECT * FROM news WHERE news.label IS NULL
-    # достали ряды таблицы без лейлбла целиком
     i = 0
     for row in rows:
         row.label = y_pred[i]
         s.add(row)
         s.commit()
         i += 1
-        # проходим по всем рядвмс в выборке без лейбла и устонавливаем им лейбл, забирая его из
-        # листа в котором лейблы от классификатора
-        # Нам нужно перебирать и элементы rows (а это особый объект sqlalchemy а не лист)
-        # поэтому приходится добавить переменную i
 
 if __name__ == "__main__":
     with open("data/SMSSpamCollection") as f:
@@ -106,6 +92,6 @@ if __name__ == "__main__":
     X = [clean(x).lower() for x in X]
     print(X[0], "|||", y[0])
     X_train, y_train, X_test, y_test = X[:3900], y[:3900], X[3900:], y[3900:]
-    model = NaiveBayesClassifier(1)
+    model = NaiveBayesClassifier()
     model.fit(X_train, y_train)
     print(model.score(X_test, y_test))
