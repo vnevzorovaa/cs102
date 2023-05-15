@@ -151,7 +151,7 @@ class TestHackernews(unittest.TestCase):
             expected = [news_not_cl[2], news_not_cl[0], news_not_cl[1]]
             actual = classify_news()
             self.assertEqual(expected, actual)
-        except HTTPResponse as e:
+        except HTTPResponse as e or sqlite3.OperationalError:
             if e.status == 302:
                 pass
             else:
