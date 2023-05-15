@@ -21,7 +21,6 @@ def extract_news(parser):
             }
         if n.attrs:
             if n.attrs["class"][0] == "athing":
-                #print(n)
                 ninf["title"] = n.find("span", class_="titleline").find("a").string
                 link = n.find("span", class_="titleline").find("a").get("href")
                 if "http" in link:
@@ -29,7 +28,6 @@ def extract_news(parser):
                 elif "item" in link:
                     ninf["url"] = "https://news.ycombinator.com/" + link
         else:
-            #print(n.find("span", class_='subline').findAll("a")[-1].string.split()[0])
             if n.find("span", class_='subline'):
                 ninf["points"] = int(n.find("span", class_='subline').find('span', class_="score").string.split()[0])
                 ninf["author"] = n.find("span", class_='subline').find("a", class_="hnuser").string
