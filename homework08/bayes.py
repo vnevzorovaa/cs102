@@ -9,7 +9,9 @@ from db import News, session
 
 
 class NaiveBayesClassifier:
-    def __init__(self,):
+    def __init__(
+        self,
+    ):
         self.alpha = 1
         self.counters = defaultdict(lambda: defaultdict(int))
         self.words_set = set()
@@ -81,6 +83,7 @@ def label_news():
         s.add(row)
         s.commit()
         i += 1
+
 
 if __name__ == "__main__":
     with open("data/SMSSpamCollection") as f:
