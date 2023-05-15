@@ -9,7 +9,7 @@ def extract_news(parser):
     tbl = parser.table.findAll("table")[1]
     news = tbl.findAll("tr")
     ninf = {"title": "None", "url": "None", "author": "None", "points": 0}
-    for i in range(len(news)-1): #
+    for i in range(len(news) - 1):  #
         n = news[i]
         if i % 3 == 0:
             ninf = {
@@ -28,10 +28,10 @@ def extract_news(parser):
                 elif "item" in link:
                     ninf["url"] = "https://news.ycombinator.com/" + link
         else:
-            if n.find("span", class_='subline'):
-                ninf["points"] = int(n.find("span", class_='subline').find('span', class_="score").string.split()[0])
-                ninf["author"] = n.find("span", class_='subline').find("a", class_="hnuser").string
-                com = str(n.find("span", class_='subline').findAll("a")[-1].string.split()[0])
+            if n.find("span", class_="subline"):
+                ninf["points"] = int(n.find("span", class_="subline").find("span", class_="score").string.split()[0])
+                ninf["author"] = n.find("span", class_="subline").find("a", class_="hnuser").string
+                com = str(n.find("span", class_="subline").findAll("a")[-1].string.split()[0])
                 if com.isdigit():
                     ninf["comments"] = int(com)
                 else:
@@ -67,5 +67,5 @@ if __name__ == "__main__":
     news_list = get_news(url, n_pages=1)
     for l in news_list:
         print(l)
-    with open('my.html', 'w') as f:
+    with open("my.html", "w") as f:
         f.write(soup.prettify())
