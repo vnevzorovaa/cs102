@@ -20,13 +20,9 @@ class GUI(UI):
 
     def draw_lines(self) -> None:
         for x in range(0, self.width, self.cell_size):
-            pygame.draw.line(
-                self.screen, pygame.Color("black"), (x, 0), (x, self.height)
-            )
+            pygame.draw.line(self.screen, pygame.Color("black"), (x, 0), (x, self.height))
         for y in range(0, self.height, self.cell_size):
-            pygame.draw.line(
-                self.screen, pygame.Color("black"), (0, y), (self.width, y)
-            )
+            pygame.draw.line(self.screen, pygame.Color("black"), (0, y), (self.width, y))
 
     def draw_grid(self) -> None:
         grid = self.life.curr_generation
@@ -53,9 +49,6 @@ class GUI(UI):
         clock = pygame.time.Clock()
         pygame.display.set_caption("Game of Life")
         self.screen.fill(pygame.Color("white"))
-
-        # Создание списка клеток
-
         running = True
         pause = False
         while running:
@@ -69,9 +62,7 @@ class GUI(UI):
                     click_x, click_y = pygame.mouse.get_pos()
                     y, x = click_x // self.cell_size, click_y // self.cell_size
 
-                    self.life.curr_generation[x][y] = (
-                        0 if self.life.curr_generation[x][y] else 1
-                    )
+                    self.life.curr_generation[x][y] = 0 if self.life.curr_generation[x][y] else 1
 
             if not pause:
                 self.life.step()
