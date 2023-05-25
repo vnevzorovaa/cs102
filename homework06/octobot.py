@@ -112,26 +112,18 @@ def choose_action(message):
     if message.text == "Подключить Google-таблицу":
         connect_table(message)
     elif message.text == "Редактировать предметы":
-        start_markup = telebot.types.ReplyKeyboardMarkup(
-            resize_keyboard=True, one_time_keyboard=True
-        )
+        start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         start_markup.row("Добавить")
         start_markup.row("Редактировать")
         start_markup.row("Удалить одно")
         start_markup.row("Удалить ВСЕ")
-        info = bot.send_message(
-            message.chat.id, "Что хотите сделать?", reply_markup=start_markup
-        )
+        info = bot.send_message(message.chat.id, "Что хотите сделать?", reply_markup=start_markup)
         bot.register_next_step_handler(info, choose_subject_action)
     elif message.text == "Внести новый дедлайн":
-        start_markup = telebot.types.ReplyKeyboardMarkup(
-            resize_keyboard=True, one_time_keyboard=True
-        )
+        start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         start_markup.row("Добавить дату")
         start_markup.row("Изменить дату")
-        info = bot.send_message(
-            message.chat.id, "Что хотите сделать?", reply_markup=start_markup
-        )
+        info = bot.send_message(message.chat.id, "Что хотите сделать?", reply_markup=start_markup)
         bot.register_next_step_handler(info, choose_deadline_action)
     elif message.text == "Посмотреть дедлайны на этой неделе":
         today = datetime.today()
@@ -152,42 +144,28 @@ def choose_action(message):
 def choose_subject_action(message):
     """Выбираем действие в разделе Редактировать предметы"""
     if message.text == "Добавить":
-        message = bot.send_message(
-            message.chat.id, "Напишите название и ссылку через пробел"
-        )
+        message = bot.send_message(message.chat.id, "Напишите название и ссылку через пробел")
         bot.register_next_step_handler(message, add_new_subject)
     elif message.text == "Редактировать":
         a, b, c = access_current_sheet()
-        mrkp = telebot.types.ReplyKeyboardMarkup(
-            resize_keyboard=True, one_time_keyboard=True
-        )
+        mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         for el in c.subject:
             mrkp.row(f"{el}")
-        inf = bot.send_message(
-            message.chat.id, "Какой предмет редактируем?", reply_markup=mrkp
-        )
+        inf = bot.send_message(message.chat.id, "Какой предмет редактируем?", reply_markup=mrkp)
         bot.register_next_step_handler(inf, update_subject)
     elif message.text == "Удалить одно":
         a, b, c = access_current_sheet()
-        mrkp = telebot.types.ReplyKeyboardMarkup(
-            resize_keyboard=True, one_time_keyboard=True
-        )
+        mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         for el in c.subject:
             mrkp.row(f"{el}")
-        inf = bot.send_message(
-            message.chat.id, "Какой предмет удаляем?", reply_markup=mrkp
-        )
+        inf = bot.send_message(message.chat.id, "Какой предмет удаляем?", reply_markup=mrkp)
         bot.register_next_step_handler(inf, delete_subject)
     elif message.text == "Удалить ВСЕ":
-        start_markup = telebot.types.ReplyKeyboardMarkup(
-            resize_keyboard=True, one_time_keyboard=True
-        )
+        start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         start_markup.row("Да")
         start_markup.row("Нет")
         start_markup.row("Не знаю")
-        info = bot.send_message(
-            message.chat.id, "Вы точно хотите удалить ВСЕ?", reply_markup=start_markup
-        )
+        info = bot.send_message(message.chat.id, "Вы точно хотите удалить ВСЕ?", reply_markup=start_markup)
         bot.register_next_step_handler(info, choose_removal_option)
 
 
@@ -195,25 +173,17 @@ def choose_deadline_action(message):
     """Выбираем действие в разделе Редактировать дедлайн"""
     if message.text == "Добавить дату":
         a, b, c = access_current_sheet()
-        mrkp = telebot.types.ReplyKeyboardMarkup(
-            resize_keyboard=True, one_time_keyboard=True
-        )
+        mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         for el in c.subject:
             mrkp.row(f"{el}")
-        inf = bot.send_message(
-            message.chat.id, "Какому предмету добавляем?", reply_markup=mrkp
-        )
+        inf = bot.send_message(message.chat.id, "Какому предмету добавляем?", reply_markup=mrkp)
         bot.register_next_step_handler(inf, add_subject_deadline)
     elif message.text == "Изменить дату":
         a, b, c = access_current_sheet()
-        mrkp = telebot.types.ReplyKeyboardMarkup(
-            resize_keyboard=True, one_time_keyboard=True
-        )
+        mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
         for el in c.subject:
             mrkp.row(f"{el}")
-        inf = bot.send_message(
-            message.chat.id, "Для какого предмета изменяем?", reply_markup=mrkp
-        )
+        inf = bot.send_message(message.chat.id, "Для какого предмета изменяем?", reply_markup=mrkp)
         bot.register_next_step_handler(inf, update_subject_deadline)
 
 
@@ -307,23 +277,17 @@ def update_subject_deadline(message):
     magic_box = []
     magic_box.append(message.text)
     a, b, c = access_current_sheet()
-    mrkp = telebot.types.ReplyKeyboardMarkup(
-        resize_keyboard=True, one_time_keyboard=True
-    )
+    mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     for el in c.columns[2:]:
         mrkp.row(f"{el}")
-    inf = bot.send_message(
-        message.chat.id, "Для какой лабы изменяем?", reply_markup=mrkp
-    )
+    inf = bot.send_message(message.chat.id, "Для какой лабы изменяем?", reply_markup=mrkp)
     bot.register_next_step_handler(inf, update_subject_deadline2)
 
 
 def update_subject_deadline2(message):
     global magic_box
     magic_box.append(message.text)
-    inf = bot.send_message(
-        message.chat.id, "Введите дату и разделитель для нее через пробел"
-    )
+    inf = bot.send_message(message.chat.id, "Введите дату и разделитель для нее через пробел")
     bot.register_next_step_handler(inf, update_subject_deadline3)
 
 
@@ -367,15 +331,11 @@ def add_new_subject_url(message):
     """Вносим новую ссылку на таблицу предмета в Google-таблицу"""
     # Set up the Google Sheets API client
     scope = ["https://www.googleapis.com/auth/spreadsheets"]
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        "сredentials.json", scope
-    )
+    credentials = ServiceAccountCredentials.from_json_keyfile_name("сredentials.json", scope)
     client = gspread.authorize(credentials)
 
     # Open the subject table spreadsheet
-    spreadsheet = client.open_by_url(
-        "https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit"
-    )
+    spreadsheet = client.open_by_url("https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit")
     worksheet = spreadsheet.worksheet("Subjects")
 
     # Parse the message to extract the subject and URL
@@ -459,16 +419,12 @@ def check_table():
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    start_markup = telebot.types.ReplyKeyboardMarkup(
-        resize_keyboard=True, one_time_keyboard=True
-    )
+    start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     start_markup.row("Подключить Google-таблицу")
     start_markup.row("Посмотреть дедлайны на этой неделе")
     start_markup.row("Внести новый дедлайн")
     start_markup.row("Редактировать предметы")
-    info = bot.send_message(
-        message.chat.id, "Что хотите сделать?", reply_markup=start_markup
-    )
+    info = bot.send_message(message.chat.id, "Что хотите сделать?", reply_markup=start_markup)
     bot.register_next_step_handler(info, choose_action)
 
 
