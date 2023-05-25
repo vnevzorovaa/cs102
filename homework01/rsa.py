@@ -2,54 +2,81 @@ import random
 import typing as tp
 
 
-def is_prime(n: int) -> bool:
+def is_prime(n_n: int) -> bool:
     """
     Tests to see if a number is prime.
-    >>> is_prime(2)
+    >>> rsa.is_prime(2)
     True
-    >>> is_prime(11)
+    >>> rsa.is_prime(-11)
     True
-    >>> is_prime(8)
+    >>> rsa.is_prime(8)
     False
     """
-    # PUT YOUR CODE HERE
-    pass
+    if n_n == 2:
+        return True
+    if n_n <= 0:
+        return False
+    elif n_n == 1:
+        return False
+    if n_n % 2 == 0:
+        return False
+    d_d = 3
+    while d_d**2 <= n_n and n_n % d_d != 0:
+        d_d += 2
+    return d_d**2 > n_n
 
 
-def gcd(a: int, b: int) -> int:
+print(is_prime(-11))
+
+
+def gcd(a_a: int, b_b: int) -> int:
     """
     Euclid's algorithm for determining the greatest common divisor.
+
     >>> gcd(12, 15)
     3
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
-    pass
+    while a_a != 0 and b_b != 0:
+        if a_a > b_b:
+            a_a = a_a % b_b
+        else:
+            b_b = b_b % a_a
+    return a_a + b_b
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
+
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    pass
+    x, xx, y, yy = 1, 0, 0, 1
+    w = phi
+    while phi:
+        q = e // phi
+        e, phi = phi, e % phi
+        x, xx = xx, x - xx * q
+        y, yy = yy, y - yy * q
+    k = x % w
+    return k
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+    """test"""
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
     # n = pq
-    # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
@@ -82,7 +109,7 @@ def decrypt(pk: tp.Tuple[int, int], ciphertext: tp.List[int]) -> str:
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
-    plain = [chr((char ** key) % n) for char in ciphertext]
+    plain = [chr((char**key) % n) for char in ciphertext]
     # Return the array of bytes as a string
     return "".join(plain)
 
