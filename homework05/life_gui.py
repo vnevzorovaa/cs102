@@ -64,6 +64,7 @@ class GUI(UI):
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     click_x, click_y = pygame.mouse.get_pos()
                     y, x = click_x // self.cell_size, click_y // self.cell_size
+                    
                     self.life.curr_generation[x][y] = (0 if self.life.curr_generation[x][y] else 1)
 
             if not pause:
