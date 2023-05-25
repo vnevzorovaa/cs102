@@ -28,11 +28,13 @@ def is_valid_date(date: str = "01/01/00", delimiter: str = "/") -> bool:
 
     # Проверяем что дан правильный (хотя бы на 50% делимитер)
     if not delimiter in date:
+        print("нет делимитера")
         return False
 
     try:
         deadline_date = convert_date(date).date()
     except ValueError:
+        print("Дата не конвертится")
         return False
 
     # Проверяем, что дата не может быть до текущей
@@ -46,7 +48,7 @@ def is_valid_date(date: str = "01/01/00", delimiter: str = "/") -> bool:
         return False
 
     # Возвращаем True, если дата прошла все проверки
-    return True  # fghj
+    return True
 
 
 def is_valid_url(url: str = "") -> bool:
@@ -95,7 +97,7 @@ def access_current_sheet():
         tables = json.load(json_file)
 
     sheet_id = tables[max(tables)]["id"]
-    gc = gspread.service_account(filename="credentials.json")
+    gc = gspread.service_account(filename="сredentials.json")
     sh = gc.open_by_key(sheet_id)
     worksheet = sh.sheet1
     # Преобразуем Google-таблицу в таблицу pandas
@@ -110,18 +112,26 @@ def choose_action(message):
     if message.text == "Подключить Google-таблицу":
         connect_table(message)
     elif message.text == "Редактировать предметы":
-        start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        start_markup = telebot.types.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True
+        )
         start_markup.row("Добавить")
         start_markup.row("Редактировать")
         start_markup.row("Удалить одно")
         start_markup.row("Удалить ВСЕ")
-        info = bot.send_message(message.chat.id, "Что хотите сделать?", reply_markup=start_markup)
+        info = bot.send_message(
+            message.chat.id, "Что хотите сделать?", reply_markup=start_markup
+        )
         bot.register_next_step_handler(info, choose_subject_action)
-    elif message.text == "Редактировать дедлайны":
-        start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    elif message.text == "Внести новый дедлайн":
+        start_markup = telebot.types.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True
+        )
         start_markup.row("Добавить дату")
         start_markup.row("Изменить дату")
-        info = bot.send_message(message.chat.id, "Что хотите сделать?", reply_markup=start_markup)
+        info = bot.send_message(
+            message.chat.id, "Что хотите сделать?", reply_markup=start_markup
+        )
         bot.register_next_step_handler(info, choose_deadline_action)
     elif message.text == "Посмотреть дедлайны на этой неделе":
         today = datetime.today()
@@ -132,35 +142,52 @@ def choose_action(message):
             for ddl in a.row_values(i)[2:]:
                 if convert_date(ddl) <= week and convert_date(ddl) >= today:
                     mes += f"{a.cell(i, 1).value}: {ddl}\n"
-        bot.send_message(message.chat.id, mes)
+        if mes:
+            bot.send_message(message.chat.id, mes)
+        else:
+            bot.send_message(message.chat.id, "ДЕДЛАЙНОВ НЕТ!!!")
         start(message)
 
 
 def choose_subject_action(message):
     """Выбираем действие в разделе Редактировать предметы"""
     if message.text == "Добавить":
-        message = bot.send_message(message.chat.id, "Напишите название и ссылку через пробел")
+        message = bot.send_message(
+            message.chat.id, "Напишите название и ссылку через пробел"
+        )
         bot.register_next_step_handler(message, add_new_subject)
     elif message.text == "Редактировать":
         a, b, c = access_current_sheet()
-        mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        mrkp = telebot.types.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True
+        )
         for el in c.subject:
             mrkp.row(f"{el}")
-        inf = bot.send_message(message.chat.id, "Какой предмет редактируем?", reply_markup=mrkp)
+        inf = bot.send_message(
+            message.chat.id, "Какой предмет редактируем?", reply_markup=mrkp
+        )
         bot.register_next_step_handler(inf, update_subject)
     elif message.text == "Удалить одно":
         a, b, c = access_current_sheet()
-        mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        mrkp = telebot.types.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True
+        )
         for el in c.subject:
             mrkp.row(f"{el}")
-        inf = bot.send_message(message.chat.id, "Какой предмет удаляем?", reply_markup=mrkp)
+        inf = bot.send_message(
+            message.chat.id, "Какой предмет удаляем?", reply_markup=mrkp
+        )
         bot.register_next_step_handler(inf, delete_subject)
     elif message.text == "Удалить ВСЕ":
-        start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        start_markup = telebot.types.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True
+        )
         start_markup.row("Да")
         start_markup.row("Нет")
         start_markup.row("Не знаю")
-        info = bot.send_message(message.chat.id, "Вы точно хотите удалить ВСЕ?", reply_markup=start_markup)
+        info = bot.send_message(
+            message.chat.id, "Вы точно хотите удалить ВСЕ?", reply_markup=start_markup
+        )
         bot.register_next_step_handler(info, choose_removal_option)
 
 
@@ -168,17 +195,25 @@ def choose_deadline_action(message):
     """Выбираем действие в разделе Редактировать дедлайн"""
     if message.text == "Добавить дату":
         a, b, c = access_current_sheet()
-        mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        mrkp = telebot.types.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True
+        )
         for el in c.subject:
             mrkp.row(f"{el}")
-        inf = bot.send_message(message.chat.id, "Какому предмету добавляем?", reply_markup=mrkp)
+        inf = bot.send_message(
+            message.chat.id, "Какому предмету добавляем?", reply_markup=mrkp
+        )
         bot.register_next_step_handler(inf, add_subject_deadline)
     elif message.text == "Изменить дату":
         a, b, c = access_current_sheet()
-        mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        mrkp = telebot.types.ReplyKeyboardMarkup(
+            resize_keyboard=True, one_time_keyboard=True
+        )
         for el in c.subject:
             mrkp.row(f"{el}")
-        inf = bot.send_message(message.chat.id, "Для какого предмета изменяем?", reply_markup=mrkp)
+        inf = bot.send_message(
+            message.chat.id, "Для какого предмета изменяем?", reply_markup=mrkp
+        )
         bot.register_next_step_handler(inf, update_subject_deadline)
 
 
@@ -259,7 +294,8 @@ def update_subject2(message):
         bot.send_message(message.chat.id, "Изменено!")
     except IndexError:
         inf = bot.send_message(
-            message.chat.id, "Название и ссылка должны быть в одном сообщении и разделены пробелом!!"
+            message.chat.id,
+            "Название и ссылка должны быть в одном сообщении и разделены пробелом!!",
         )
         bot.register_next_step_handler(inf, update_subject2)
     start(message)
@@ -271,17 +307,23 @@ def update_subject_deadline(message):
     magic_box = []
     magic_box.append(message.text)
     a, b, c = access_current_sheet()
-    mrkp = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    mrkp = telebot.types.ReplyKeyboardMarkup(
+        resize_keyboard=True, one_time_keyboard=True
+    )
     for el in c.columns[2:]:
         mrkp.row(f"{el}")
-    inf = bot.send_message(message.chat.id, "Для какой лабы изменяем?", reply_markup=mrkp)
+    inf = bot.send_message(
+        message.chat.id, "Для какой лабы изменяем?", reply_markup=mrkp
+    )
     bot.register_next_step_handler(inf, update_subject_deadline2)
 
 
 def update_subject_deadline2(message):
     global magic_box
     magic_box.append(message.text)
-    inf = bot.send_message(message.chat.id, "Введите дату и разделитель для нее через пробел")
+    inf = bot.send_message(
+        message.chat.id, "Введите дату и разделитель для нее через пробел"
+    )
     bot.register_next_step_handler(inf, update_subject_deadline3)
 
 
@@ -315,7 +357,8 @@ def add_new_subject(message):
         start(message)
     except IndexError:
         inf = bot.send_message(
-            message.chat.id, "Название и ссылка должны быть в одном сообщении и разделены пробелом!!"
+            message.chat.id,
+            "Название и ссылка должны быть в одном сообщении и разделены пробелом!!",
         )
         bot.register_next_step_handler(inf, add_new_subject)
 
@@ -324,11 +367,15 @@ def add_new_subject_url(message):
     """Вносим новую ссылку на таблицу предмета в Google-таблицу"""
     # Set up the Google Sheets API client
     scope = ["https://www.googleapis.com/auth/spreadsheets"]
-    credentials = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        "сredentials.json", scope
+    )
     client = gspread.authorize(credentials)
 
     # Open the subject table spreadsheet
-    spreadsheet = client.open_by_url("https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit")
+    spreadsheet = client.open_by_url(
+        "https://docs.google.com/spreadsheets/d/SPREADSHEET_ID/edit"
+    )
     worksheet = spreadsheet.worksheet("Subjects")
 
     # Parse the message to extract the subject and URL
@@ -354,7 +401,7 @@ def update_subject(message):
     magic_box.append(message.text)
     inf = bot.send_message(
         message.chat.id,
-        "Введите новую информацию в формате '{название} {ссылка}'. Если что-то из этого не должно измениться напишите его без изменений",
+        "Введите новую информацию в формате 'название ссылка'. Если что-то из этого не должно измениться напишите его без изменений",
     )
     bot.register_next_step_handler(inf, update_subject2)
 
@@ -373,7 +420,8 @@ def update_subject2(message):
         bot.send_message(message.chat.id, "Изменено!")
     except IndexError:
         inf = bot.send_message(
-            message.chat.id, "Название и ссылка должны быть в одном сообщении и разделены пробелом!!"
+            message.chat.id,
+            "Название и ссылка должны быть в одном сообщении и разделены пробелом!!",
         )
         bot.register_next_step_handler(inf, update_subject2)
     start(message)
@@ -393,7 +441,7 @@ def clear_subject_list(message):
     with open("tables.json") as json_file:
         tables = json.load(json_file)
     sheet_id = tables[max(tables)]["id"]
-    gc = gspread.service_account(filename="credentials.json")
+    gc = gspread.service_account(filename="сredentials.json")
     sh = gc.open_by_key(sheet_id)
     worksheet = sh.sheet1
     sh.del_worksheet(worksheet)
@@ -411,14 +459,20 @@ def check_table():
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    start_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    start_markup = telebot.types.ReplyKeyboardMarkup(
+        resize_keyboard=True, one_time_keyboard=True
+    )
     start_markup.row("Подключить Google-таблицу")
     start_markup.row("Посмотреть дедлайны на этой неделе")
     start_markup.row("Внести новый дедлайн")
     start_markup.row("Редактировать предметы")
-    info = bot.send_message(message.chat.id, "Что хотите сделать?", reply_markup=start_markup)
+    info = bot.send_message(
+        message.chat.id, "Что хотите сделать?", reply_markup=start_markup
+    )
     bot.register_next_step_handler(info, choose_action)
 
 
 if __name__ == "__main__":
     bot.infinity_polling()
+    # with open("сredentials.json") as f:
+    #     print('ok!')
